@@ -10,6 +10,8 @@ const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngr
 const resolve = require('path').resolve;
 const app = express();
 
+// app.listen(80);
+
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
 
@@ -44,4 +46,25 @@ app.listen(port, host, (err) => {
   } else {
     logger.appStarted(port, prettyHost);
   }
+});
+
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
+
+server.listen(6882);
+
+io.on('connection', (socket) => {
+  socket.emit('chat', { chat: [
+    {
+      time: '18:30:21',
+      text: 'This is a cool chat message man!',
+      owner: 'John',
+    },
+    {
+      time: '18:30:25',
+      text: 'I dont think so, John!',
+      owner: 'Bella',
+    },
+  ] });
+  socket.on('test', (data) => console.log(data));
 });

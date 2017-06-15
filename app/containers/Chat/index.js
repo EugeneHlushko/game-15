@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import debug from 'debug';
+import io from 'socket.io-client';
 
 import ChatInputBox from 'components/ChatInputBox';
 import ChatMessage from 'components/ChatMessage';
@@ -27,23 +28,24 @@ const chatBoxStyles = {
 
 export class Chat extends React.Component { // eslint-disable-line react/prefer-stateless-function
   state = {
-    chatMessages: [
-      {
-        time: '18:30:21',
-        text: 'This is a cool chat message man!',
-        owner: 'John',
-      },
-      {
-        time: '18:30:25',
-        text: 'I dont think so, John!',
-        owner: 'Bella',
-      },
-    ],
+    chatMessages: [],
   };
+
+  componentWillMount() {
+    debug.enable('chat');
+    debug('chat')('mounting soon!');
+    const socket = io.connect('http://localhost:6882');
+
+    socket.emit('test', { room: 'wtf' });
+    socket.on('chat', (data) => {
+      debug('chat')(data);
+      this.setState({ chatMessages: data.chat });
+    });
+  }
 
   onSend = (message) => {
     // send message using socket.io
-    debug('ChatInputBox')(`Will send a message: ${message}`);
+    debug('chat')(`Will send a message: ${message}`);
   };
 
   render() {
