@@ -8,6 +8,10 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   header: {
     id: 'app.components.HomePage.header',
-    defaultMessage: 'This is HomePage component!',
+    defaultMessage: 'Welcome to the "15", please choose to play solo or online against your friends and foes!',
+  },
+  playSolo: {
+    id: 'app.components.HomePage.playSolo',
+    defaultMessage: 'Solo',
   },
 });

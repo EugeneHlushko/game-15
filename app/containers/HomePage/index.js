@@ -11,14 +11,26 @@
 
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { Link } from 'react-router';
 import messages from './messages';
+
+
+const styles = {
+  Header: {
+    fontSize: '18px',
+    color: '#607d8b',
+    margin: '0',
+    padding: '15px',
+  },
+};
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
-      <h1>
-        <FormattedMessage {...messages.header} />
-      </h1>
+      <div>
+        <h1 style={styles.Header}></h1>
+        <Link to="/game"><FormattedMessage {...messages.playSolo} /></Link>
+      </div>
     );
   }
 }
