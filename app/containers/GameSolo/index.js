@@ -8,40 +8,18 @@ import React, { PropTypes } from 'react';
 import debug from 'debug';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-import { cloneDeep } from 'lodash';
+// import styled from 'styled-components';
 import { shuffleArray, tryMove, checkWin } from 'utils/helpers';
 
+import Button from 'components/Button';
 import GameThumb from 'components/GameThumb';
+import GameCanvas from 'components/GameCanvas';
 
 import {
-  GAME_ITEM_SIZE,
-  GAME_COLS,
   GAME_INITIAL_COORDS,
 } from 'shared/constants';
 
-const styles = {
-  GameBox: {
-    background: '#999',
-    border: '2px solid #333',
-    margin: '10px auto 0',
-    height: `${GAME_ITEM_SIZE * GAME_COLS}px`,
-    width: `${GAME_ITEM_SIZE * GAME_COLS}px`,
-    position: 'relative',
-    boxSizing: 'content-box',
-  },
-  GameThumb: {
-    fontSize: '13px',
-    position: 'absolute',
-    transition: 'all 500ms ease',
-    display: 'block',
-    width: `${GAME_ITEM_SIZE}px`,
-    height: `${GAME_ITEM_SIZE}px`,
-    lineHeight: `${GAME_ITEM_SIZE}px`,
-    border: '2px solid #fff',
-    boxSizing: 'border-box',
-    textAlign: 'center',
-  },
-};
+import messages from './messages';
 
 class GameSolo extends React.Component { // eslint-disable-line react/prefer-stateless-function
   constructor() {
@@ -50,9 +28,16 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
     debug.enable('GameSolo');
 
     this.state = {
-      coords: shuffleArray(GAME_INITIAL_COORDS),
+      playingGame: false,
     };
   }
+
+  startNewGame = () => {
+    this.setState({
+      coords: shuffleArray(GAME_INITIAL_COORDS),
+      playingGame: true,
+    });
+  };
 
   thumbClick = (index) => {
     const moveResult = tryMove(index, this.state.coords);
@@ -64,15 +49,15 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
 
   didIWin = () => {
     if (checkWin(this.state.coords)) {
-      alert('WIN!');
+      this.setState({ playingGame: false });
     }
   };
 
   render() {
-    const { coords } = this.state;
+    const { coords, playingGame } = this.state;
 
     return (
-      <div style={styles.GameBox}>
+      <div>
         <Helmet
           title="GameSolo"
           meta={[
@@ -80,7 +65,15 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
           ]}
         />
         {
-          coords.map((item, i) => <GameThumb key={i} index={i} clickCallback={this.thumbClick} x={item.x} y={item.y} />)
+          playingGame ?
+            <GameCanvas>
+              {
+                coords.map((item, i) => <GameThumb key={i} index={i} clickCallback={this.thumbClick} x={item.x} y={item.y} />)
+              }
+            </GameCanvas> :
+            <div>
+              <Button clickCallback={this.startNewGame} text={messages.play} />
+            </div>
         }
       </div>
     );

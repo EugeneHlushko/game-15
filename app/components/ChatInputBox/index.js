@@ -6,7 +6,7 @@
 
 import React from 'react';
 
-import { FormattedMessage } from 'react-intl';
+import Button from 'components/Button';
 import messages from './messages';
 
 const styles = {
@@ -23,16 +23,6 @@ const styles = {
     boxSizing: 'border-box',
     padding: '20px',
     width: '300px',
-  },
-  ChatInputButton: {
-    width: '120px',
-    height: '38px',
-    lineHeight: '38px',
-    margin: '10px auto 20px',
-    display: 'block',
-    background: '#03a9f4',
-    color: '#fff',
-    cursor: 'pointer',
   },
 };
 
@@ -61,9 +51,7 @@ class ChatInputBox extends React.Component { // eslint-disable-line react/prefer
     return (
       <div style={styles.ChatInputContainer}>
         <textarea style={styles.TextArea} value={message} onChange={this.onChange} />
-        <button style={styles.ChatInputButton} onClick={this.handleSendClick}>
-          <FormattedMessage {...messages.send} />
-        </button>
+        <Button clickCallback={this.handleSendClick} text={messages.send} />
       </div>
     );
   }
