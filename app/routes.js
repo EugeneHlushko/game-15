@@ -55,6 +55,25 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/play-single-player',
+      name: 'gameSinglePlayer',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          import('containers/GameSolo/sagas'),
+          import('containers/GameSolo'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([sagas, component]) => {
+          injectSagas(sagas.default);
+
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

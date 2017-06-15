@@ -8,7 +8,6 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
-import GameSolo from 'components/GameSolo';
 
 import makeSelectGame from './selectors';
 
@@ -22,7 +21,6 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
             { name: 'description', content: 'Description of Game' },
           ]}
         />
-        <GameSolo />
       </div>
     );
   }

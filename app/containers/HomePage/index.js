@@ -29,7 +29,7 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     return (
       <div>
         <h1 style={styles.Header}></h1>
-        <Link to="/game"><FormattedMessage {...messages.playSolo} /></Link>
+        <Link to="/play-single-player"><FormattedMessage {...messages.playSolo} /></Link>
       </div>
     );
   }
