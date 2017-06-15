@@ -11,11 +11,12 @@ import Helmet from 'react-helmet';
 import { cloneDeep } from 'lodash';
 import { shuffleArray, tryMove, checkWin } from 'utils/helpers';
 
+import GameThumb from 'components/GameThumb';
+
 import {
-GAME_ITEM_COUNT,
-GAME_ITEM_SIZE,
-GAME_COLS,
-GAME_INITIAL_COORDS,
+  GAME_ITEM_SIZE,
+  GAME_COLS,
+  GAME_INITIAL_COORDS,
 } from 'shared/constants';
 
 const styles = {
@@ -47,28 +48,18 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
     super();
 
     debug.enable('GameSolo');
-    const coords = cloneDeep(GAME_INITIAL_COORDS);
-    shuffleArray(coords);
 
     this.state = {
-      coords,
+      coords: shuffleArray(GAME_INITIAL_COORDS),
     };
   }
 
-  thumbClick = (e) => {
-    const { target } = e;
-    if (target.classList.contains('empty')) {
-      debug('GameSolo')('is empty!');
-      return false;
-    }
-    const i = parseInt(target.innerHTML, 10);
-    const moveResult = tryMove(i, this.state.coords);
+  thumbClick = (index) => {
+    const moveResult = tryMove(index, this.state.coords);
 
     if (moveResult) {
       this.setState({ coords: moveResult }, this.didIWin);
     }
-
-    return false;
   };
 
   didIWin = () => {
@@ -77,21 +68,9 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
     }
   };
 
-  renderThumbs = (item, i) => {
-    const style = {
-      left: item.x,
-      top: item.y,
-      ...styles.GameThumb,
-    };
-
-    if (i < GAME_ITEM_COUNT) {
-      return (<div key={i} style={style} onClick={this.thumbClick}>{ i + 1 }</div>);
-    }
-
-    return (<div key={i} style={style} className="thumb empty" onClick={this.thumbClick} />);
-  };
-
   render() {
+    const { coords } = this.state;
+
     return (
       <div style={styles.GameBox}>
         <Helmet
@@ -100,7 +79,9 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
             { name: 'description', content: 'Description of GameSolo' },
           ]}
         />
-        { this.state.coords.map(this.renderThumbs) }
+        {
+          coords.map((item, i) => <GameThumb key={i} index={i} clickCallback={this.thumbClick} x={item.x} y={item.y} />)
+        }
       </div>
     );
   }

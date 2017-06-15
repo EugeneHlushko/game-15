@@ -10,11 +10,13 @@ import {
 debug.enable('helpers');
 
 /* eslint-disable */
-export function shuffleArray(arr) {
+export function shuffleArray(oldArr) {
+  const arr = cloneDeep(oldArr);
   for (let i = arr.length; i; i--) {
     let j = Math.floor(Math.random() * i);
     [arr[i - 1], arr[j]] = [arr[j], arr[i - 1]];
   }
+  return arr;
 }
 /* eslint-enable */
 
@@ -26,7 +28,7 @@ export function tryMove(i, coords) {
   }
 
   // current item coords
-  const { x, y } = coords[i - 1];
+  const { x, y } = coords[i];
   // empty item coords
   const { x: ex, y: ey } = coords[GAME_ITEM_COUNT];
   // debug('GameSolo')(`will try to move: ${i}`);
@@ -43,14 +45,14 @@ export function tryMove(i, coords) {
   if (y === ey) {
     if (x - GAME_ITEM_SIZE === ex || x + GAME_ITEM_SIZE === ex) {
       newCoords = cloneDeep(coords);
-      newCoords[i - 1].x = ex;
+      newCoords[i].x = ex;
       newCoords[GAME_ITEM_COUNT].x = x;
     }
   } else if (x === ex) {
     // it is not on the same line so we check vertically
     if (y - GAME_ITEM_SIZE === ey || y + GAME_ITEM_SIZE === ey) {
       newCoords = cloneDeep(coords);
-      newCoords[i - 1].y = ey;
+      newCoords[i].y = ey;
       newCoords[GAME_ITEM_COUNT].y = y;
     }
   }
