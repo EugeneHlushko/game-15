@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 // makeSelectLocationState expects a plain JS object for the routing state
 const makeSelectLocationState = () => {
   let prevRoutingState;
@@ -15,6 +17,27 @@ const makeSelectLocationState = () => {
   };
 };
 
+/**
+ * Direct selector to the chat state domain
+ */
+const selectAppDomain = () => (state) => state.get('app');
+
+
+const makeSelectApp = () => createSelector(
+    selectAppDomain(),
+    (substate) => substate.toJS()
+);
+
+const makeSelectAppPlayerName = () => createSelector(
+    selectAppDomain(),
+    (substate) => {
+      console.log('returning: ', substate.toJS());
+      return substate.toJS().name;
+    }
+);
+
 export {
   makeSelectLocationState,
+  makeSelectApp,
+  makeSelectAppPlayerName,
 };

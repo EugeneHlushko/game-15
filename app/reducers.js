@@ -9,6 +9,7 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 
 // static reducers (chat etc)
 import chat from 'containers/Chat/reducer';
+import app from 'containers/App/reducer';
 import languageProviderReducer from 'containers/LanguageProvider/reducer';
 
 /*
@@ -47,6 +48,7 @@ export default function createReducer(asyncReducers) {
     route: routeReducer,
     language: languageProviderReducer,
     chat,
+    app,
     ...asyncReducers,
   });
 }

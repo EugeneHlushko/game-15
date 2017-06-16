@@ -10,3 +10,5 @@
  */
 
 export const DEFAULT_LOCALE = 'en';
+
+export const NAME_SET_ACTION = 'app/App/NAME_SET_ACTION';

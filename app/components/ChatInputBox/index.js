@@ -32,17 +32,17 @@ class ChatInputBox extends React.Component { // eslint-disable-line react/prefer
     error: false,
   };
 
+  onChange = (e) => {
+    this.setState({ message: e.target.value });
+  };
+
   handleSendClick = () => {
     const { message } = this.state;
     if (message.length > 1) {
-      this.props.onSend();
+      this.props.onSend(message);
     } else {
       this.setState({ error: true });
     }
-  };
-
-  onChange = (e) => {
-    this.setState({ message: e.target.value });
   };
 
   render() {

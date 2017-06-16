@@ -10,4 +10,8 @@ export default defineMessages({
     id: 'app.containers.Game.header',
     defaultMessage: 'This is Game container !',
   },
+  play: {
+    id: 'app.containers.Game.play',
+    defaultMessage: 'Find online game',
+  },
 });

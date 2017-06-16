@@ -11,22 +11,99 @@
  * the linting exception.
  */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { FormattedMessage } from 'react-intl';
+import debug from 'debug';
 
+import { socket } from 'utils/socket';
+import { SOCKET_NAME_SET } from 'shared/constants';
+import Overlay from 'components/Overlay';
+import OverlayBox from 'components/OverlayBox';
+import Input from 'components/Input';
+import Button from 'components/Button';
+
+import { makeSelectAppPlayerName } from './selectors';
+import { nameSet } from './actions';
+import messages from './messages';
 import Chat from '../Chat';
 
-export default class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
+class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
     children: React.PropTypes.node,
   };
 
+  state = {
+    playerNameSaved: false,
+  };
+
+  componentWillMount() {
+    debug.enable('App');
+  }
+
+  inputChanged = (string) => {
+    console.log(string);
+    this.props.onChangeName(string);
+  };
+
+  saveName = () => {
+    this.setState({ playerNameSaved: true });
+    socket.emit(SOCKET_NAME_SET, this.props.playerName);
+  };
+
   render() {
+    const { playerNameSaved } = this.state;
+    const { playerName } = this.props;
+
     return (
-      <div id="theapp">
-        {React.Children.toArray(this.props.children)}
-        <Chat />
+      <div>
+        {
+          playerNameSaved ?
+            <div>
+              {React.Children.toArray(this.props.children)}
+              <Chat />
+            </div> :
+            <Overlay>
+              <OverlayBox>
+                <FormattedMessage {...messages.nameTitle} />
+                <FormattedMessage {...messages.nameDescription} />
+                <Input changeCallback={this.inputChanged} value={playerName || ''} />
+                <Button
+                  text={messages.nameSet}
+                  clickCallback={this.saveName}
+                  disabled={playerName && playerName.length > 0}
+                />
+              </OverlayBox>
+            </Overlay>
+        }
       </div>
     );
   }
+};
+
+
+App.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  onChangeName: PropTypes.func.isRequired,
+  playerName: PropTypes.oneOfType([
+    PropTypes.bool,
+    PropTypes.string,
+  ]).isRequired,
+};
+
+const mapStateToProps = createStructuredSelector({
+  playerName: makeSelectAppPlayerName(),
+});
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch,
+    onChangeName: (name) => {
+      dispatch(nameSet(name));
+    },
+  };
 }
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

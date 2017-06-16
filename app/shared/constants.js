@@ -1,7 +1,15 @@
-export const GAME_ITEM_COUNT = 15;
-export const GAME_ITEM_SIZE = 32;
-export const GAME_COLS = 4;
-export const GAME_INITIAL_COORDS = Array.from(new Array(16), (val, index) => index + 1).map((item) => indexToCoord(item - 1));
+const GAME_ITEM_COUNT = 15;
+const GAME_ITEM_SIZE = 32;
+const GAME_COLS = 4;
+const GAME_INITIAL_COORDS = Array.from(new Array(16), (val, index) => index + 1).map((item) => indexToCoord(item - 1));
+
+const GAME_REQUEST_NEW_GAME = 'GAME_REQUEST_NEW_GAME';
+const GAME_UPDATE = 'GAME_UPDATE';
+const GAME_STARTED = 'GAME_STARTED';
+const GAME_MOVE_THUMB = 'GAME_MOVE_THUMB';
+const GAME_OVER = 'GAME_OVER';
+
+const SOCKET_NAME_SET = 'SOCKET_NAME_SET';
 
 function indexToCoord(i) {
   let row = 0;
@@ -24,3 +32,15 @@ function indexToCoord(i) {
 
   return calculatedCoords;
 }
+
+module.exports = {
+  GAME_ITEM_COUNT,
+  GAME_ITEM_SIZE,
+  GAME_COLS,
+  GAME_INITIAL_COORDS,
+  GAME_REQUEST_NEW_GAME,
+  GAME_UPDATE,
+  GAME_STARTED,
+  GAME_MOVE_THUMB,
+  GAME_OVER,
+};

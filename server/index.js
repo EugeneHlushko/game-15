@@ -7,6 +7,7 @@ const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
+const ngrok2 = require('ngrok');
 const resolve = require('path').resolve;
 const app = express();
 
@@ -50,21 +51,10 @@ app.listen(port, host, (err) => {
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
+const debug = require('debug');
+debug.enable('socket');
 
 server.listen(6882);
 
-io.on('connection', (socket) => {
-  socket.emit('chat', { chat: [
-    {
-      time: '18:30:21',
-      text: 'This is a cool chat message man!',
-      owner: 'John',
-    },
-    {
-      time: '18:30:25',
-      text: 'I dont think so, John!',
-      owner: 'Bella',
-    },
-  ] });
-  socket.on('test', (data) => console.log(data));
-});
+const chat = require('./middlewares/socketChat')(io);
+const gamesHandler = require('./middlewares/socketGame')(io);

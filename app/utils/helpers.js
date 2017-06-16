@@ -1,16 +1,18 @@
-import { cloneDeep } from 'lodash';
-import debug from 'debug';
+// TODO: transfer back to ES6 modules after enabling babel node for server;
 
-import {
+const { cloneDeep } = require('lodash');
+const debug = require('debug');
+
+const {
   GAME_ITEM_COUNT,
   GAME_ITEM_SIZE,
   GAME_INITIAL_COORDS,
-} from 'shared/constants';
+} = require('../shared/constants');
 
 debug.enable('helpers');
 
 /* eslint-disable */
-export function shuffleArray(oldArr) {
+function shuffleArray(oldArr) {
   const arr = cloneDeep(oldArr);
   for (let i = arr.length; i; i--) {
     let j = Math.floor(Math.random() * i);
@@ -20,7 +22,7 @@ export function shuffleArray(oldArr) {
 }
 /* eslint-enable */
 
-export function tryMove(i, coords) {
+function tryMove(i, coords) {
   let newCoords = false;
 
   if (isNaN(i)) {
@@ -28,6 +30,7 @@ export function tryMove(i, coords) {
   }
 
   // current item coords
+  debug('helpers')(`Trying to move for i: ${i}`);
   const { x, y } = coords[i];
   // empty item coords
   const { x: ex, y: ey } = coords[GAME_ITEM_COUNT];
@@ -60,7 +63,7 @@ export function tryMove(i, coords) {
   return newCoords || false;
 }
 
-export function checkWin(coords) {
+function checkWin(coords) {
   let checked = 0;
   debug('helpers')(coords);
   debug('helpers')(GAME_INITIAL_COORDS);
@@ -85,3 +88,9 @@ export function checkWin(coords) {
 
   return checked === GAME_ITEM_COUNT + 1;
 }
+
+module.exports = {
+  shuffleArray,
+  tryMove,
+  checkWin,
+};
