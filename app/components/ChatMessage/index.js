@@ -20,10 +20,14 @@ const StyledMessageOwner = styled.span`
 `;
 
 function ChatMessage(props) {
-  const { owner, text } = props;
+  const { owner, text, time } = props;
+
+  const date = new Date(time);
+  const timeString = `${date.getHours()}:${date.getMinutes()}`;
 
   return (
     <StyledMessageWrapper>
+      <span>{timeString} ~</span>
       <StyledMessageOwner>{owner}: </StyledMessageOwner>
       <span>{text}</span>
     </StyledMessageWrapper>
@@ -32,6 +36,7 @@ function ChatMessage(props) {
 
 ChatMessage.propTypes = {
   owner: React.PropTypes.string.isRequired,
+  time: React.PropTypes.number.isRequired,
   text: React.PropTypes.string.isRequired,
 };
 

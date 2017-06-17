@@ -28,6 +28,7 @@ const StyledChatContainer = styled.div`
 const StyledChatMessagesWrapper = styled.div`
   overflow-y: scroll;
   height: 348px;
+  background: #fff;
 `;
 
 export class Chat extends React.Component { // eslint-disable-line react/prefer-stateless-function
