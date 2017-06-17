@@ -23,7 +23,9 @@ function ChatMessage(props) {
   const { owner, text, time } = props;
 
   const date = new Date(time);
-  const timeString = `${date.getHours()}:${date.getMinutes()}`;
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const timeString = `${hours < 10 ? `0${hours}` : hours}:${minutes < 10 ? `0${minutes}` : minutes}`;
 
   return (
     <StyledMessageWrapper>
