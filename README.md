@@ -2,6 +2,8 @@
 
 ### Want to challenge your colleagues and train your brain?! Play Game 15.
 
+### Generally an example react online socket.io game using express and react-boilerplate
+
 ### how to play?
 
 1. `npm install` or `yarn install`
