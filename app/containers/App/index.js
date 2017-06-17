@@ -71,7 +71,7 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
               <OverlayBox>
                 <FormattedMessage {...messages.nameTitle} />
                 <FormattedMessage {...messages.nameDescription} />
-                <Input changeCallback={this.inputChanged} value={playerName || ''} />
+                <Input submitCallback={this.saveName} changeCallback={this.inputChanged} value={playerName || ''} />
                 <Button
                   text={messages.nameSet}
                   clickCallback={this.saveName}

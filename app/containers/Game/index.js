@@ -16,8 +16,9 @@ import { socket } from 'utils/socket';
 import Button from 'components/Button';
 import GameThumb from 'components/GameThumb';
 import GameCanvas from 'components/GameCanvas';
+import GameOver from 'components/GameOver';
 
-import { GAME_REQUEST_NEW_GAME, GAME_STARTED, GAME_MOVE_THUMB, GAME_UPDATE, GAME_OVER } from 'shared/constants';
+import { GAME_REQUEST_NEW_GAME, GAME_STARTED, GAME_MOVE_THUMB, GAME_UPDATE, GAME_OVER, GAME_LEAVE } from 'shared/constants';
 
 import makeSelectGame from './selectors';
 import messages from './messages';
@@ -52,6 +53,19 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
     };
   }
 
+  componentWillUnmount() {
+    if (this.state.playingGame) {
+      alert('LEAVER!');
+      socket.emit(GAME_LEAVE);
+      this.socketUnlistenGameEvents();
+    }
+  }
+
+  socketUnlistenGameEvents = () => {
+    socket.off(GAME_UPDATE);
+    socket.off(GAME_OVER);
+  };
+
   requestNewGame = () => {
     // work with socket to request new match
     this.setState({ searchingForGame: true, winnerId: false });
@@ -59,6 +73,8 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
     socket.on(GAME_STARTED, (data) => {
       debug('Game')('Have gotten an update!');
       this.startGame(data);
+      // dont listen for game_started anymore;
+      socket.off(GAME_STARTED);
     });
 
     socket.emit(GAME_REQUEST_NEW_GAME);
@@ -146,13 +162,7 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
             </StyledBoardsWrapper> :
             <div>
               {
-                winnerId &&
-                  <div>
-                    {
-                      winnerId === socket.id ?
-                        'You have won the match!' : 'You have lost the match!'
-                    }
-                  </div>
+                winnerId && <GameOver opponentName={enemyName} winner={winnerId === socket.id} time={152152151} />
               }
               {
                 searchingForGame ?

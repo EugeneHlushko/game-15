@@ -14,6 +14,7 @@ import { shuffleArray, tryMove, checkWin } from 'utils/helpers';
 import Button from 'components/Button';
 import GameThumb from 'components/GameThumb';
 import GameCanvas from 'components/GameCanvas';
+import GameOver from 'components/GameOver';
 
 import {
   GAME_INITIAL_COORDS,
@@ -29,6 +30,7 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
 
     this.state = {
       playingGame: false,
+      gameOver: false,
     };
   }
 
@@ -49,7 +51,7 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
 
   didIWin = () => {
     if (checkWin(this.state.coords)) {
-      this.setState({ playingGame: false });
+      this.setState({ playingGame: false, gameOver: true });
     }
   };
 
@@ -72,6 +74,7 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
               }
             </GameCanvas> :
             <div>
+              <GameOver solo time={152152151} />
               <Button clickCallback={this.startNewGame} text={messages.play} />
             </div>
         }

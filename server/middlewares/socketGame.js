@@ -1,4 +1,12 @@
-const { GAME_INITIAL_COORDS, GAME_REQUEST_NEW_GAME, GAME_UPDATE, GAME_STARTED, GAME_OVER } = require('../../app/shared/constants');
+const {
+  GAME_INITIAL_COORDS,
+  GAME_REQUEST_NEW_GAME,
+  GAME_UPDATE,
+  GAME_STARTED,
+  GAME_OVER,
+  GAME_LEAVE,
+  GAME_MOVE_THUMB,
+} = require('../../app/shared/constants');
 const { cloneDeep } = require('lodash');
 const { shuffleArray, tryMove, checkWin } = require('../../app/utils/helpers');
 
@@ -41,23 +49,43 @@ function socketGame(io) {
       this.emitToPlayers(GAME_STARTED, this.playerData);
 
       this.players.forEach((player) => {
-        player.on('GAME_MOVE_THUMB', (index) => {
-          const moveResults = tryMove(index, this.playerData[player.id].coords);
+        player.on(GAME_MOVE_THUMB, this.handleGameMoveThumb.bind(this, player));
 
-          if (moveResults) {
-            if (checkWin(moveResults)) {
-              this.emitToPlayers(GAME_OVER, player.id);
-            }
-
-            this.playerData[player.id].coords = moveResults;
-            this.emitToPlayers(GAME_UPDATE, this.playerData);
-          }
-        });
+        // if you leave, opponent wins
+        player.on(GAME_LEAVE, this.handleGameLeave.bind(this, player));
       });
     }
 
     emitToPlayers(eventName, data) {
       io.to(this.players[0].id).to(this.players[1].id).emit(eventName, data);
+    }
+
+    handleGameMoveThumb(player, index) {
+      const moveResults = tryMove(index, this.playerData[player.id].coords);
+
+      if (moveResults) {
+        this.playerData[player.id].coords = moveResults;
+        this.emitToPlayers(GAME_UPDATE, this.playerData);
+
+        if (checkWin(moveResults)) {
+          this.winner = player.id;
+          this.gameOver();
+        }
+      }
+    }
+
+    handleGameLeave(player) {
+      this.winner = this.players.filter((iteratedPlayer) => iteratedPlayer.id !== player.id)[0].id;
+      this.gameOver();
+    }
+
+    gameOver() {
+      this.emitToPlayers(GAME_OVER, this.winner);
+
+      this.players.forEach((player) => {
+        player.removeAllListeners(GAME_MOVE_THUMB);
+        player.removeAllListeners(GAME_LEAVE);
+      });
     }
   }
 }

@@ -4,7 +4,7 @@
 *
 */
 
-import React from 'react';
+import React, { PropTypes } from 'react';
 import styled from 'styled-components';
 
 const StyledInput = styled.input`
@@ -21,14 +21,21 @@ function Input(props) {
     props.changeCallback(evt.target.value);
   }
 
+  function keyDownListener(e) {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      props.submitCallback();
+    }
+  }
+
   return (
-    <StyledInput onChange={changeEventHandler} value={props.value} />
+    <StyledInput onChange={changeEventHandler} value={props.value} onKeyDown={keyDownListener} />
   );
 }
 
 Input.propTypes = {
-  changeCallback: React.PropTypes.func.isRequired,
-  value: React.PropTypes.string.isRequired,
+  changeCallback: PropTypes.func.isRequired,
+  submitCallback: PropTypes.func,
+  value: PropTypes.string.isRequired,
 };
 
 export default Input;
