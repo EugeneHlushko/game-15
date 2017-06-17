@@ -9,7 +9,7 @@ import styled from 'styled-components';
 import { FormattedMessage } from 'react-intl';
 
 const StyledButton = styled.button`
-  width: 120px;
+  max-width: 320px;
   height: 38px;
   lineHeight: 38px;
   margin: 10px auto 20px;
@@ -17,6 +17,7 @@ const StyledButton = styled.button`
   background: #03a9f4;
   color: #fff;
   cursor: pointer;
+  font-size: 16px;
 `;
 
 function Button(props) {

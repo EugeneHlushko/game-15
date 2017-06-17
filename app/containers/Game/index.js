@@ -103,10 +103,10 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
 
   clickThumbSync = (index) => {
     // request actual server result and while waiting make positive scenario move
-    const moveResult = tryMove(index, this.state.coords);
+    const moveResult = tryMove(index, this.state.ownCoords);
 
     if (moveResult) {
-      this.setState({ coords: moveResult });
+      this.setState({ ownCoords: moveResult });
     }
 
     socket.emit(GAME_MOVE_THUMB, index);

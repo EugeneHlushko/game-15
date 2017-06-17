@@ -10,8 +10,4 @@ export default defineMessages({
     id: 'app.components.HomePage.header',
     defaultMessage: 'Welcome to the "15", please choose to play solo or online against your friends and foes!',
   },
-  playSolo: {
-    id: 'app.components.HomePage.playSolo',
-    defaultMessage: 'Solo',
-  },
 });

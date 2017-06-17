@@ -10,24 +10,29 @@
  */
 
 import React from 'react';
-// import { FormattedMessage } from 'react-intl';
-// import messages from './messages';
+import styled from 'styled-components';
+import { FormattedMessage } from 'react-intl';
+import Helmet from 'react-helmet';
+import messages from './messages';
 
-
-const styles = {
-  Header: {
-    fontSize: '18px',
-    color: '#607d8b',
-    margin: '0',
-    padding: '15px',
-  },
-};
+const StyledH1 = styled.h1`
+  font-size: 18px;
+  color: #607d8b;
+  margin: 0;
+  padding: 15px;
+`;
 
 export default class HomePage extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <div>
-        <h1 style={styles.Header}></h1>
+        <Helmet
+            title="Homepage"
+            meta={[
+              { name: 'description', content: 'Description of HomePage' },
+            ]}
+        />
+        <StyledH1><FormattedMessage {...messages.header} /></StyledH1>
       </div>
     );
   }
