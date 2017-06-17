@@ -1,5 +1,9 @@
-# how to play?
+## Online game 15
+
+### Want to challenge your colleagues and train your brain?! Play Game 15.
+
+### how to play?
 
 1. `npm install` or `yarn install`
 2. when done do `npm run start`
-3. visit localhost:3000 or share ngrok ip address with your LAN colleagues
+3. visit localhost:3000 or share tunnel ip address with your LAN colleagues
