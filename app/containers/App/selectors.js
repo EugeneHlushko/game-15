@@ -30,10 +30,7 @@ const makeSelectApp = () => createSelector(
 
 const makeSelectAppPlayerName = () => createSelector(
     selectAppDomain(),
-    (substate) => {
-      console.log('returning: ', substate.toJS());
-      return substate.toJS().name;
-    }
+    (substate) => substate.toJS().name
 );
 
 export {

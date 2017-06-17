@@ -1,5 +1,4 @@
 /* eslint consistent-return:0 */
-
 const express = require('express');
 const logger = require('./logger');
 
@@ -7,11 +6,8 @@ const argv = require('minimist')(process.argv.slice(2));
 const setup = require('./middlewares/frontendMiddleware');
 const isDev = process.env.NODE_ENV !== 'production';
 const ngrok = (isDev && process.env.ENABLE_TUNNEL) || argv.tunnel ? require('ngrok') : false;
-const ngrok2 = require('ngrok');
 const resolve = require('path').resolve;
 const app = express();
-
-// app.listen(80);
 
 // If you need a backend, e.g. an API, add your custom backend-specific middleware here
 // app.use('/api', myApi);
@@ -51,10 +47,9 @@ app.listen(port, host, (err) => {
 
 const server = require('http').Server(app);
 const io = require('socket.io')(server);
-const debug = require('debug');
-debug.enable('socket');
 
 server.listen(6882);
 
-const chat = require('./middlewares/socketChat')(io);
-const gamesHandler = require('./middlewares/socketGame')(io);
+require('./middlewares/socketAuth')(io, logger);
+require('./middlewares/socketChat')(io, logger);
+require('./middlewares/socketGame')(io);

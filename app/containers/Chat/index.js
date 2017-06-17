@@ -25,6 +25,11 @@ const StyledChatContainer = styled.div`
   padding: 15px 0 0 15px;
 `;
 
+const StyledChatMessagesWrapper = styled.div`
+  overflow-y: scroll;
+  height: 348px;
+`;
+
 export class Chat extends React.Component { // eslint-disable-line react/prefer-stateless-function
   state = {
     chatMessages: [],
@@ -49,7 +54,6 @@ export class Chat extends React.Component { // eslint-disable-line react/prefer-
     // send message using socket.io
     debug('chat')(`Will send a message: ${message}`);
     const chatMessage = {
-      time: '18:30:25',
       text: message,
       owner: this.props.playerName,
     };
@@ -65,9 +69,9 @@ export class Chat extends React.Component { // eslint-disable-line react/prefer-
         <div><FormattedMessage {...messages.chatMessages} /></div>
         <div>
           { playerName && <ChatInputBox onSend={this.onSend} /> }
-          <div>
-            {chatMessages.map((message, index) => <ChatMessage key={index} {...message} />)}
-          </div>
+          <StyledChatMessagesWrapper>
+            {chatMessages.reverse().map((message, index) => <ChatMessage key={index} {...message} />)}
+          </StyledChatMessagesWrapper>
         </div>
       </StyledChatContainer>
     );

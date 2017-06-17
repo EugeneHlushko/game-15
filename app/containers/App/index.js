@@ -23,7 +23,7 @@ import Overlay from 'components/Overlay';
 import OverlayBox from 'components/OverlayBox';
 import Input from 'components/Input';
 import Button from 'components/Button';
-import Header from 'components/header';
+import Header from 'components/Header';
 
 import { makeSelectAppPlayerName } from './selectors';
 import { nameSet } from './actions';
@@ -45,13 +45,13 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
   }
 
   inputChanged = (string) => {
-    console.log(string);
     this.props.onChangeName(string);
   };
 
   saveName = () => {
-    this.setState({ playerNameSaved: true });
+    debug('App')('Sending name!', this.props.playerName);
     socket.emit(SOCKET_NAME_SET, this.props.playerName);
+    this.setState({ playerNameSaved: true });
   };
 
   render() {

@@ -10,6 +10,7 @@ import Helmet from 'react-helmet';
 import { createStructuredSelector } from 'reselect';
 import styled from 'styled-components';
 import debug from 'debug';
+import { tryMove } from 'utils/helpers';
 
 import { socket } from 'utils/socket';
 import Button from 'components/Button';
@@ -47,7 +48,6 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
       enemyCoords: false,
       playingGame: false,
       searchingForGame: false,
-      waitingForMoveResponse: false,
     };
   }
 
@@ -98,17 +98,18 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
     this.setState({
       ownCoords: data[socket.id].coords,
       enemyCoords: data[enemyId].coords,
-      waitingForMoveResponse: false,
     });
   };
 
-  thumbClickAsync = (index) => {
-    // do something
-    debug('Game')('thumb clicked');
-    // TODO: what about concurrency? temporarily stop next clicks in case of lag????
-    if (!this.state.waitingForMoveResponse) {
-      socket.emit(GAME_MOVE_THUMB, index);
+  clickThumbSync = (index) => {
+    // request actual server result and while waiting make positive scenario move
+    const moveResult = tryMove(index, this.state.coords);
+
+    if (moveResult) {
+      this.setState({ coords: moveResult });
     }
+
+    socket.emit(GAME_MOVE_THUMB, index);
   };
 
   render() {
@@ -129,7 +130,7 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
                 My box
                 <GameCanvas>
                   {
-                    ownCoords.map((item, i) => <GameThumb key={i} index={i} clickCallback={this.thumbClickAsync} x={item.x} y={item.y} />)
+                    ownCoords.map((item, i) => <GameThumb key={i} index={i} clickCallback={this.clickThumbSync} x={item.x} y={item.y} />)
                   }
                 </GameCanvas>
               </div>

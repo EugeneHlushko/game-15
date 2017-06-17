@@ -1,13 +1,5 @@
-const debug = require('debug')('chat');
-
-function socketChat(io) {
-  const messages = [
-    {
-      time: '18:30:21',
-      text: 'This is a cool chat message man!',
-      owner: 'John',
-    },
-  ];
+function socketChat(io, logger) {
+  const messages = [];
 
   const CHAT_ROOM = 'CHAT_ROOM';
 
@@ -15,23 +7,24 @@ function socketChat(io) {
     socket.on('joinChat', () => {
       socket.join(CHAT_ROOM, () => {
         socket.emit('chat', { chat: messages });
-        debug('adding socket to chat room');
+        logger.log('adding socket to chat room', 'chat');
       });
 
       socket.on('disconnect', () => {
-        debug('leaving chatroom');
+        logger.log('leaving chatroom', 'chat');
         socket.leave(CHAT_ROOM);
       });
     });
 
     socket.on('chatMessageAdd', (data) => {
-      debug(data);
+      logger.log(data, 'chat');
+      data.time = new Date().getTime();
       messages.push(data);
       io.in(CHAT_ROOM).emit('chat', { chat: messages });
     });
 
     socket.on('leaveChat', () => {
-      debug('leaving chatroom');
+      logger.log('leaving chatroom', 'chat');
       socket.leave(CHAT_ROOM);
     });
   });

@@ -43,4 +43,5 @@ module.exports = {
   GAME_STARTED,
   GAME_MOVE_THUMB,
   GAME_OVER,
+  SOCKET_NAME_SET,
 };

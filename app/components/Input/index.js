@@ -17,12 +17,12 @@ const StyledInput = styled.input`
 `;
 
 function Input(props) {
-  function changeevt(evt) {
+  function changeEventHandler(evt) {
     props.changeCallback(evt.target.value);
   }
 
   return (
-    <StyledInput onChange={changeevt} value={props.value} />
+    <StyledInput onChange={changeEventHandler} value={props.value} />
   );
 }
 

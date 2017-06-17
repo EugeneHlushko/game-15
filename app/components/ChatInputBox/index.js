@@ -40,9 +40,19 @@ class ChatInputBox extends React.Component { // eslint-disable-line react/prefer
     const { message } = this.state;
     if (message.length > 1) {
       this.props.onSend(message);
+      this.setState({ message: '' });
     } else {
       this.setState({ error: true });
     }
+  };
+
+  keyDown = (e) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      this.handleSendClick();
+      e.preventDefault();
+      return false;
+    }
+    return true;
   };
 
   render() {
@@ -50,7 +60,7 @@ class ChatInputBox extends React.Component { // eslint-disable-line react/prefer
 
     return (
       <div style={styles.ChatInputContainer}>
-        <textarea style={styles.TextArea} value={message} onChange={this.onChange} />
+        <textarea onKeyDown={this.keyDown} style={styles.TextArea} value={message} onChange={this.onChange} />
         <Button clickCallback={this.handleSendClick} text={messages.send} />
       </div>
     );

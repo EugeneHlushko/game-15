@@ -5,40 +5,32 @@
 */
 
 import React from 'react';
+import styled from 'styled-components';
 
-const styles = {
-  ChatMessageBox: {
-    background: '#fefefe',
-    borderBottom: '1px solid #333',
-    position: 'relative',
-    marginRight: '300px',
-  },
-  ChatMessageTimeAndOwner: {
-    position: 'absolute',
-    left: '0',
-    top: '0',
-  },
-  ChatMessageText: {
-    marginLeft: '200px',
-  },
-};
+const StyledMessageWrapper = styled.div`
+  background: #fefefe;
+  border-bottom: 1px solid #f9f7f7;
+  position: relative;
+  font-size: 14px;
+  padding: 3px 10px;
+`;
+
+const StyledMessageOwner = styled.span`
+  font-weight: bold;
+`;
 
 function ChatMessage(props) {
-  const { time, owner, text } = props;
+  const { owner, text } = props;
 
   return (
-    <div style={styles.ChatMessageBox}>
-      <div style={styles.ChatMessageTimeAndOwner}>
-        <span>{time}</span>
-        <span>{owner}</span>
-      </div>
-      <div style={styles.ChatMessageText}>{text}</div>
-    </div>
+    <StyledMessageWrapper>
+      <StyledMessageOwner>{owner}: </StyledMessageOwner>
+      <span>{text}</span>
+    </StyledMessageWrapper>
   );
 }
 
 ChatMessage.propTypes = {
-  time: React.PropTypes.string.isRequired,
   owner: React.PropTypes.string.isRequired,
   text: React.PropTypes.string.isRequired,
 };

@@ -1,10 +1,10 @@
-const { GAME_INITIAL_COORDS, GAME_REQUEST_NEW_GAME, GAME_UPDATE, GAME_STARTED, GAME_MOVE_THUMB, GAME_OVER } = require('../../app/shared/constants');
+const { GAME_INITIAL_COORDS, GAME_REQUEST_NEW_GAME, GAME_UPDATE, GAME_STARTED, GAME_OVER } = require('../../app/shared/constants');
 const { cloneDeep } = require('lodash');
 const { shuffleArray, tryMove, checkWin } = require('../../app/utils/helpers');
 
 let gameQueue = [];
 
-function socketGame(io) {
+function socketGame(io, debug) {
   io.on('connection', (socket) => {
     socket.on(GAME_REQUEST_NEW_GAME, () => {
       gameQueue.push(socket);
