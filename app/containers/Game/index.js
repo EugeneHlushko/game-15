@@ -24,8 +24,9 @@ import messages from './messages';
 
 const StyledGameWrapper = styled.div`
   margin: auto;
+  padding: 20px 0;
   min-width: 320px;
-  max-width: 800px;
+  max-width: 360px;
 `;
 
 const StyledBoardsWrapper = styled.div`
