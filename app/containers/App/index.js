@@ -23,6 +23,7 @@ import Overlay from 'components/Overlay';
 import OverlayBox from 'components/OverlayBox';
 import Input from 'components/Input';
 import Button from 'components/Button';
+import Header from 'components/header';
 
 import { makeSelectAppPlayerName } from './selectors';
 import { nameSet } from './actions';
@@ -59,6 +60,7 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
 
     return (
       <div>
+        <Header />
         {
           playerNameSaved ?
             <div>

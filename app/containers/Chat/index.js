@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import { FormattedMessage } from 'react-intl';
 import { createStructuredSelector } from 'reselect';
 import debug from 'debug';
+import styled from 'styled-components';
 
 import { socket } from 'utils/socket';
 import ChatInputBox from 'components/ChatInputBox';
@@ -18,14 +19,11 @@ import { makeSelectAppPlayerName } from 'containers/App/selectors';
 import makeSelectChat from './selectors';
 import messages from './messages';
 
-const chatBoxStyles = {
-  position: 'fixed',
-  left: 0,
-  bottom: 0,
-  right: 0,
-  borderTop: '1px solid #607d8b',
-  padding: '15px 0 0 15px',
-};
+const StyledChatContainer = styled.div`
+  position: relative;
+  borderTop: 1px solid #607d8b;
+  padding: 15px 0 0 15px;
+`;
 
 export class Chat extends React.Component { // eslint-disable-line react/prefer-stateless-function
   state = {
@@ -63,7 +61,7 @@ export class Chat extends React.Component { // eslint-disable-line react/prefer-
     const { playerName } = this.props;
 
     return (
-      <div style={chatBoxStyles}>
+      <StyledChatContainer>
         <div><FormattedMessage {...messages.chatMessages} /></div>
         <div>
           { playerName && <ChatInputBox onSend={this.onSend} /> }
@@ -71,7 +69,7 @@ export class Chat extends React.Component { // eslint-disable-line react/prefer-
             {chatMessages.map((message, index) => <ChatMessage key={index} {...message} />)}
           </div>
         </div>
-      </div>
+      </StyledChatContainer>
     );
   }
 }

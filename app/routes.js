@@ -34,7 +34,7 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
-      path: '/game',
+      path: '/game-15-multiplayer',
       name: 'game',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
@@ -55,7 +55,7 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
-      path: '/play-single-player',
+      path: '/game-15-single',
       name: 'gameSinglePlayer',
       getComponent(nextState, cb) {
         const importModules = Promise.all([
