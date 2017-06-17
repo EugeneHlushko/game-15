@@ -18,7 +18,7 @@ function socketChat(io, logger) {
 
     socket.on('chatMessageAdd', (data) => {
       logger.log(data, 'chat');
-      data.time = new Date().getTime();
+      data.time = new Date().getTime(); // eslint-disable-line no-param-reassign
       messages.push(data);
       io.in(CHAT_ROOM).emit('chat', { chat: messages });
     });
@@ -28,6 +28,6 @@ function socketChat(io, logger) {
       socket.leave(CHAT_ROOM);
     });
   });
-};
+}
 
 module.exports = socketChat;

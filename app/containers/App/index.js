@@ -83,11 +83,10 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
       </div>
     );
   }
-};
+}
 
 
 App.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   onChangeName: PropTypes.func.isRequired,
   playerName: PropTypes.oneOfType([
     PropTypes.bool,

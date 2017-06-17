@@ -4,7 +4,7 @@ const { shuffleArray, tryMove, checkWin } = require('../../app/utils/helpers');
 
 let gameQueue = [];
 
-function socketGame(io, debug) {
+function socketGame(io) {
   io.on('connection', (socket) => {
     socket.on(GAME_REQUEST_NEW_GAME, () => {
       gameQueue.push(socket);
@@ -15,7 +15,7 @@ function socketGame(io, debug) {
       });
 
       if (gameQueue.length === 2) {
-        const game = new Game([gameQueue[0], gameQueue[1]]);
+        const game = new Game([gameQueue[0], gameQueue[1]]); // eslint-disable-line no-unused-vars
         // cleanup the queue
         gameQueue = [];
       }
@@ -54,12 +54,12 @@ function socketGame(io, debug) {
           }
         });
       });
-    };
+    }
 
     emitToPlayers(eventName, data) {
       io.to(this.players[0].id).to(this.players[1].id).emit(eventName, data);
-    };
-  };
-};
+    }
+  }
+}
 
 module.exports = socketGame;

@@ -80,7 +80,6 @@ export class Chat extends React.Component { // eslint-disable-line react/prefer-
 }
 
 Chat.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   playerName: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.string,

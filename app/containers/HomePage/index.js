@@ -27,10 +27,10 @@ export default class HomePage extends React.PureComponent { // eslint-disable-li
     return (
       <div>
         <Helmet
-            title="Homepage"
-            meta={[
-              { name: 'description', content: 'Description of HomePage' },
-            ]}
+          title="Homepage"
+          meta={[
+            { name: 'description', content: 'Description of HomePage' },
+          ]}
         />
         <StyledH1><FormattedMessage {...messages.header} /></StyledH1>
       </div>

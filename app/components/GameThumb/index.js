@@ -24,8 +24,8 @@ const StyledThumb = styled.div`
   border: 2px solid #fff;
   boxSizing: border-box;
   textAlign: center;
-  top: ${props => props.y}px;
-  left: ${props => props.x}px;
+  top: ${(props) => props.y}px;
+  left: ${(props) => props.x}px;
 `;
 
 class GameThumb extends React.Component { // eslint-disable-line react/prefer-stateless-function
