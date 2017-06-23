@@ -8,7 +8,6 @@ import React, { PropTypes } from 'react';
 import debug from 'debug';
 import { connect } from 'react-redux';
 import Helmet from 'react-helmet';
-// import styled from 'styled-components';
 import { shuffleArray, tryMove, checkWin } from 'utils/helpers';
 
 import Button from 'components/Button';
@@ -56,7 +55,7 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
   };
 
   render() {
-    const { coords, playingGame } = this.state;
+    const { coords, playingGame, gameOver } = this.state;
 
     return (
       <div>
@@ -74,7 +73,7 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
               }
             </GameCanvas> :
             <div>
-              <GameOver solo time={152152151} />
+              { gameOver && <GameOver solo time={152152151} /> }
               <Button clickCallback={this.startNewGame} text={messages.play} />
             </div>
         }
