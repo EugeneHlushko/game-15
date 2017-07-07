@@ -6,21 +6,18 @@ const {
   GAME_OVER,
   GAME_LEAVE,
   GAME_MOVE_THUMB,
+  GAME_REQUEST_NEW_GAME_CANCEL,
 } = require('../../app/shared/constants');
 const { cloneDeep } = require('lodash');
 const { shuffleArray, tryMove, checkWin } = require('../../app/utils/helpers');
 
 let gameQueue = [];
+// TODO games array for proper GC after game was finished.
 
 function socketGame(io) {
   io.on('connection', (socket) => {
     socket.on(GAME_REQUEST_NEW_GAME, () => {
       gameQueue.push(socket);
-
-      socket.on('disconnect', () => {
-        // remove player from queue on DC
-        gameQueue = gameQueue.filter((item) => item.id !== socket.id);
-      });
 
       if (gameQueue.length === 2) {
         const game = new Game([gameQueue[0], gameQueue[1]]); // eslint-disable-line no-unused-vars
@@ -28,12 +25,25 @@ function socketGame(io) {
         gameQueue = [];
       }
     });
+
+    // i want to listen for these events with this specific callback only for those who did request the new game.
+    // so putting these into game request event callback would make it bind these listeners each time instead of only once
+    socket.on(GAME_REQUEST_NEW_GAME_CANCEL, socketGameSearchCancel.bind(this, socket));
+    socket.on('disconnect', socketGameSearchCancel.bind(this, socket));
   });
 
+  // when socket leaves or when he gets DCed we want to make sure he is not in the queue;
+  function socketGameSearchCancel(socket) {
+    gameQueue = gameQueue.filter((item) => item.id !== socket.id);
+  }
+
+  // TODO: move out to separate file
   class Game {
     constructor(players) {
       const newCoords = shuffleArray(GAME_INITIAL_COORDS);
       this.players = players;
+      // use to store the game duration, in high scores and match history
+      this.startedAt = new Date().getTime();
       this.playerData = {
         [this.players[0].id]: {
           coords: cloneDeep(newCoords),
@@ -80,6 +90,8 @@ function socketGame(io) {
     }
 
     gameOver() {
+      // TODO: do a db write of the game result
+      this.finishedAt = new Date().getTime();
       this.emitToPlayers(GAME_OVER, this.winner);
 
       this.players.forEach((player) => {

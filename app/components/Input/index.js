@@ -33,7 +33,8 @@ function Input(props) {
 }
 
 Input.propTypes = {
-  changeCallback: PropTypes.func.isRequired,
+  // why the heck eslint picks this one up?
+  changeCallback: PropTypes.func.isRequired, // eslint-disable-line react/no-unused-prop-types
   submitCallback: PropTypes.func,
   value: PropTypes.string.isRequired,
 };

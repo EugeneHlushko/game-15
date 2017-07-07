@@ -17,6 +17,7 @@ import { createStructuredSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
 import debug from 'debug';
 
+import LocalStorageHelper from 'utils/localStorageHelper';
 import { socket } from 'utils/socket';
 import { SOCKET_NAME_SET } from 'shared/constants';
 import Overlay from 'components/Overlay';
@@ -29,19 +30,16 @@ import { makeSelectAppPlayerName } from './selectors';
 import { nameSet } from './actions';
 import messages from './messages';
 import Chat from '../Chat';
+import { PLAYER_NAME_KEY_IN_LOCALSTORAGE } from './constants';
 
 class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
-
-  static propTypes = {
-    children: React.PropTypes.node,
-  };
-
-  state = {
-    playerNameSaved: false,
-  };
-
   componentWillMount() {
     debug.enable('App');
+    this.state = {};
+
+    if (!this.props.playerName) {
+      this.state.playerNameSaved = false;
+    }
   }
 
   inputChanged = (string) => {
@@ -49,9 +47,12 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
   };
 
   saveName = () => {
-    debug('App')('Sending name!', this.props.playerName);
-    socket.emit(SOCKET_NAME_SET, this.props.playerName);
+    const { playerName } = this.props;
+
+    debug('App')('Sending name!', playerName);
+    socket.emit(SOCKET_NAME_SET, playerName);
     this.setState({ playerNameSaved: true });
+    LocalStorageHelper.setStorageItem(PLAYER_NAME_KEY_IN_LOCALSTORAGE, playerName);
   };
 
   render() {
@@ -85,8 +86,8 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
   }
 }
 
-
 App.propTypes = {
+  children: PropTypes.node,
   onChangeName: PropTypes.func.isRequired,
   playerName: PropTypes.oneOfType([
     PropTypes.bool,

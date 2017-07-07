@@ -4,6 +4,7 @@ const GAME_COLS = 4;
 const GAME_INITIAL_COORDS = Array.from(new Array(16), (val, index) => index + 1).map((item) => indexToCoord(item - 1));
 
 const GAME_REQUEST_NEW_GAME = 'GAME_REQUEST_NEW_GAME';
+const GAME_REQUEST_NEW_GAME_CANCEL = 'GAME_REQUEST_NEW_GAME_CANCEL';
 const GAME_UPDATE = 'GAME_UPDATE';
 const GAME_STARTED = 'GAME_STARTED';
 const GAME_MOVE_THUMB = 'GAME_MOVE_THUMB';
@@ -46,4 +47,5 @@ module.exports = {
   GAME_OVER,
   GAME_LEAVE,
   SOCKET_NAME_SET,
+  GAME_REQUEST_NEW_GAME_CANCEL,
 };

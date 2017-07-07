@@ -5,12 +5,14 @@
  */
 
 import { fromJS } from 'immutable';
+import LocalStorageHelper from 'utils/localStorageHelper';
 import {
   NAME_SET_ACTION,
+  PLAYER_NAME_KEY_IN_LOCALSTORAGE,
 } from './constants';
 
 const initialState = fromJS({
-  name: '',
+  name: LocalStorageHelper.getStorageItem(PLAYER_NAME_KEY_IN_LOCALSTORAGE),
 });
 
 function appReducer(state = initialState, action) {

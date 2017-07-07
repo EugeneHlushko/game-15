@@ -44,6 +44,12 @@ import './global-styles';
 // Import root routes
 import createRoutes from './routes';
 
+if (process.env.NODE_ENV === 'development') {
+  // I dont really like to disable some of the rules, but what can i say, reactotron is not perfect yet :)
+  require('./reactotronConfig'); // eslint-disable-line global-require
+}
+
+
 // Create redux store with history
 // this uses the singleton browserHistory provided by react-router
 // Optionally, this could be changed to leverage a created history

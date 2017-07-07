@@ -17,8 +17,17 @@ import Button from 'components/Button';
 import GameThumb from 'components/GameThumb';
 import GameCanvas from 'components/GameCanvas';
 import GameOver from 'components/GameOver';
+import Timer from 'components/Timer';
 
-import { GAME_REQUEST_NEW_GAME, GAME_STARTED, GAME_MOVE_THUMB, GAME_UPDATE, GAME_OVER, GAME_LEAVE } from 'shared/constants';
+import {
+  GAME_REQUEST_NEW_GAME,
+  GAME_STARTED,
+  GAME_MOVE_THUMB,
+  GAME_UPDATE,
+  GAME_OVER,
+  GAME_LEAVE,
+  GAME_REQUEST_NEW_GAME_CANCEL,
+} from 'shared/constants';
 
 import makeSelectGame from './selectors';
 import messages from './messages';
@@ -58,6 +67,11 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
       alert('LEAVER!');
       socket.emit(GAME_LEAVE);
       this.socketUnlistenGameEvents();
+    }
+
+    // if we were searching for a game, automatically cancel the search.
+    if (this.state.searchingForGame) {
+      socket.emit(GAME_REQUEST_NEW_GAME_CANCEL);
     }
   }
 
@@ -143,6 +157,7 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
         {
           playingGame ?
             <StyledBoardsWrapper>
+              <Timer />
               <div>
                 My box
                 <GameCanvas>

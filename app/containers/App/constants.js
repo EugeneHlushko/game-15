@@ -12,3 +12,4 @@
 export const DEFAULT_LOCALE = 'en';
 
 export const NAME_SET_ACTION = 'app/App/NAME_SET_ACTION';
+export const PLAYER_NAME_KEY_IN_LOCALSTORAGE = 'app/App/PLAYER_NAME_KEY_IN_LOCALSTORAGE';

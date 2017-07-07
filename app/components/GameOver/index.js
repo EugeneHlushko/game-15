@@ -23,14 +23,14 @@ const StyledGameOverTime = styled.div`
 `;
 
 function GameOver(props) {
+  const { solo, winner } = props;
   return (
     <StyledGameOverWrapper winner={props.winner}>
+      { solo ? <FormattedMessage {...messages.winnerTextSolo} /> : '' }
       {
-        props.solo ?
-          <FormattedMessage {...messages.winnerTextSolo} /> :
-          props.winner ?
-            <FormattedMessage {...messages.winnerText} values={{ name: props.opponentName }} /> :
-            <FormattedMessage {...messages.loserText} values={{ name: props.opponentName }} />
+        winner && !solo ?
+          <FormattedMessage {...messages.winnerText} values={{ name: props.opponentName }} /> :
+          <FormattedMessage {...messages.loserText} values={{ name: props.opponentName }} />
       }
       <StyledGameOverTime>
         <FormattedMessage {...messages.timing} values={{ time: props.time }} />

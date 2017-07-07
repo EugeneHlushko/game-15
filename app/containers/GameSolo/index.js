@@ -14,6 +14,7 @@ import Button from 'components/Button';
 import GameThumb from 'components/GameThumb';
 import GameCanvas from 'components/GameCanvas';
 import GameOver from 'components/GameOver';
+import Timer from 'components/Timer';
 
 import {
   GAME_INITIAL_COORDS,
@@ -67,11 +68,14 @@ class GameSolo extends React.Component { // eslint-disable-line react/prefer-sta
         />
         {
           playingGame ?
-            <GameCanvas>
-              {
-                coords.map((item, i) => <GameThumb key={i} index={i} clickCallback={this.thumbClick} x={item.x} y={item.y} />)
-              }
-            </GameCanvas> :
+            <div>
+              <Timer />
+              <GameCanvas>
+                {
+                  coords.map((item, i) => <GameThumb key={i} index={i} clickCallback={this.thumbClick} x={item.x} y={item.y} />)
+                }
+              </GameCanvas>
+            </div> :
             <div>
               { gameOver && <GameOver solo time={152152151} /> }
               <Button clickCallback={this.startNewGame} text={messages.play} />
