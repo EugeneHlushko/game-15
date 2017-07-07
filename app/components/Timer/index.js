@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledTimer = styled.div`
@@ -52,7 +53,7 @@ class Timer extends React.Component { // eslint-disable-line react/prefer-statel
 }
 
 Timer.propTypes = {
-  stop: React.PropTypes.bool,
+  stop: PropTypes.bool,
 };
 
 export default Timer;

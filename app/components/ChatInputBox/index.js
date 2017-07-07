@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import Button from 'components/Button';
 import messages from './messages';
@@ -68,7 +69,7 @@ class ChatInputBox extends React.Component { // eslint-disable-line react/prefer
 }
 
 ChatInputBox.propTypes = {
-  onSend: React.PropTypes.func.isRequired,
+  onSend: PropTypes.func.isRequired,
 };
 
 export default ChatInputBox;

@@ -5,6 +5,7 @@
 */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const StyledMessageWrapper = styled.div`
@@ -37,9 +38,9 @@ function ChatMessage(props) {
 }
 
 ChatMessage.propTypes = {
-  owner: React.PropTypes.string.isRequired,
-  time: React.PropTypes.number.isRequired,
-  text: React.PropTypes.string.isRequired,
+  owner: PropTypes.string.isRequired,
+  time: PropTypes.number.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 export default ChatMessage;
