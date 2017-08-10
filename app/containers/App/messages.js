@@ -8,7 +8,7 @@ import { defineMessages } from 'react-intl';
 export default defineMessages({
   nameSet: {
     id: 'app.containers.App.nameSet',
-    defaultMessage: 'Set my name: ',
+    defaultMessage: 'Set name',
   },
   nameTitle: {
     id: 'app.containers.App.nameTitle',

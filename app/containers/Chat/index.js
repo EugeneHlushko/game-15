@@ -35,6 +35,7 @@ const StyledChatMessagesWrapper = styled.div`
 export class Chat extends React.Component { // eslint-disable-line react/prefer-stateless-function
   state = {
     chatMessages: [],
+    clientNames: [],
   };
 
   componentWillMount() {
@@ -45,6 +46,11 @@ export class Chat extends React.Component { // eslint-disable-line react/prefer-
     socket.on('chat', (data) => {
       debug('chat')(data);
       this.setState({ chatMessages: data.chat });
+    });
+
+    socket.on('clients', (data) => {
+      debug('chat')(data);
+      this.setState({ clientNames: data.clientNames });
     });
   }
 
@@ -63,12 +69,13 @@ export class Chat extends React.Component { // eslint-disable-line react/prefer-
   };
 
   render() {
-    const { chatMessages } = this.state;
+    const { chatMessages, clientNames } = this.state;
     const { playerName } = this.props;
 
     return (
       <StyledChatContainer>
         <div><FormattedMessage {...messages.chatMessages} /></div>
+        <div>Folks online ({clientNames.length}): { clientNames.map((name) => ` ${name};`) }</div>
         <div>
           { playerName && <ChatInputBox onSend={this.onSend} /> }
           <StyledChatMessagesWrapper>

@@ -19,11 +19,16 @@ const StyledButton = styled.button`
   color: #fff;
   cursor: pointer;
   font-size: 16px;
+  padding: 0 10px;
+  
+  &:hover {
+    background: #0a6892;
+  }
 `;
 
 function Button(props) {
   return (
-    <StyledButton onClick={props.clickCallback}>
+    <StyledButton style={props.style} onClick={props.clickCallback}>
       <FormattedMessage {...props.text} />
     </StyledButton>
   );
@@ -32,6 +37,7 @@ function Button(props) {
 Button.propTypes = {
   clickCallback: PropTypes.func.isRequired,
   text: PropTypes.object.isRequired,
+  style: PropTypes.object,
 };
 
 export default Button;

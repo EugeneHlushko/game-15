@@ -16,7 +16,7 @@ import {
 const StyledGameWrapper = styled.div`
   background: #999;
   border: 2px solid #333;
-  margin: 10px auto 0;
+  margin: 10px auto 50px;
   height: ${GAME_ITEM_SIZE * GAME_COLS}px;
   width: ${GAME_ITEM_SIZE * GAME_COLS}px;
   position: relative;

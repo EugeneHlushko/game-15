@@ -12,8 +12,12 @@ const StyledTimer = styled.div`
   border: 1px solid #333;
   padding: 4px 10px;
   text-align: center;
-  width: 120px;
-  margin: 15px auto;
+  width: 130px;
+  margin: 50px auto 15px;
+`;
+
+const StyledPrefix = styled.span`
+  font-size: 12px;
 `;
 
 
@@ -46,7 +50,7 @@ class Timer extends React.Component { // eslint-disable-line react/prefer-statel
 
     return (
       <StyledTimer>
-        { time }
+        <StyledPrefix>Time:</StyledPrefix> { time }<StyledPrefix>sec</StyledPrefix>
       </StyledTimer>
     );
   }

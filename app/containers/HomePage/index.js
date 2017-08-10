@@ -18,7 +18,7 @@ import messages from './messages';
 const StyledH1 = styled.h1`
   font-size: 18px;
   color: #607d8b;
-  margin: 0;
+  margin: 150px 0;
   padding: 15px;
 `;
 

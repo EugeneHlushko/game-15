@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { FormattedMessage } from 'react-intl';
+import styled from 'styled-components';
 import debug from 'debug';
 
 import LocalStorageHelper from 'utils/localStorageHelper';
@@ -33,6 +34,20 @@ import messages from './messages';
 import Chat from '../Chat';
 import { PLAYER_NAME_KEY_IN_LOCALSTORAGE } from './constants';
 
+const Heading = styled.div`
+  font-size: 20px;
+  margin-bottom: 15px;
+`;
+
+const InputWrapper = styled.div`
+  margin: 10px 0;
+  border-top: 1px solid #dedede;
+  padding-top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
 class App extends React.PureComponent { // eslint-disable-line react/prefer-stateless-function
   componentWillMount() {
     debug.enable('App');
@@ -49,7 +64,6 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
 
   saveName = () => {
     const { playerName } = this.props;
-
     debug('App')('Sending name!', playerName);
     socket.emit(SOCKET_NAME_SET, playerName);
     this.setState({ playerNameSaved: true });
@@ -71,14 +85,21 @@ class App extends React.PureComponent { // eslint-disable-line react/prefer-stat
             </div> :
             <Overlay>
               <OverlayBox>
-                <FormattedMessage {...messages.nameTitle} />
+                <Heading>
+                  <FormattedMessage {...messages.nameTitle} />
+                </Heading>
                 <FormattedMessage {...messages.nameDescription} />
-                <Input submitCallback={this.saveName} changeCallback={this.inputChanged} value={playerName || ''} />
-                <Button
-                  text={messages.nameSet}
-                  clickCallback={this.saveName}
-                  disabled={playerName && playerName.length > 0}
-                />
+                <InputWrapper>
+                  <Input submitCallback={this.saveName} changeCallback={this.inputChanged} value={playerName || ''} />
+                  <Button
+                    style={{
+                      margin: '0 0 0 15px',
+                    }}
+                    text={messages.nameSet}
+                    clickCallback={this.saveName}
+                    disabled={playerName && playerName.length > 0}
+                  />
+                </InputWrapper>
               </OverlayBox>
             </Overlay>
         }

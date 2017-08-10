@@ -12,6 +12,7 @@ const StyledBox = styled.div`
   padding: 20px;
   background: #fff;
   border: 1px solid #000;
+  text-align: center;
 `;
 
 function OverlayBox(props) {
