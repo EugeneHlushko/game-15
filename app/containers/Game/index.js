@@ -157,25 +157,27 @@ export class Game extends React.Component { // eslint-disable-line react/prefer-
         />
         {
           playingGame ?
-            <StyledBoardsWrapper>
+            <div>
               <Timer />
-              <div>
-                My box
-                <GameCanvas>
-                  {
-                    ownCoords.map((item, i) => <GameThumb key={i} index={i} clickCallback={this.clickThumbSync} x={item.x} y={item.y} />)
-                  }
-                </GameCanvas>
-              </div>
-              <EnemyBoardWrapper>
-                { `${enemyName}'s box` }
-                <GameCanvas>
-                  {
-                    enemyCoords.map((item, i) => <GameThumb key={i} index={i} clickCallback={() => {}} x={item.x} y={item.y} />)
-                  }
-                </GameCanvas>
-              </EnemyBoardWrapper>
-            </StyledBoardsWrapper> :
+              <StyledBoardsWrapper>
+                <div>
+                  My box
+                  <GameCanvas>
+                    {
+                      ownCoords.map((item, i) => <GameThumb key={i} index={i} clickCallback={this.clickThumbSync} x={item.x} y={item.y} />)
+                    }
+                  </GameCanvas>
+                </div>
+                <EnemyBoardWrapper>
+                  { `${enemyName}'s box` }
+                  <GameCanvas>
+                    {
+                      enemyCoords.map((item, i) => <GameThumb key={i} index={i} clickCallback={() => {}} x={item.x} y={item.y} />)
+                    }
+                  </GameCanvas>
+                </EnemyBoardWrapper>
+              </StyledBoardsWrapper>
+            </div> :
             <div>
               {
                 winnerId && <GameOver opponentName={enemyName} winner={winnerId === socket.id} time={152152151} />
